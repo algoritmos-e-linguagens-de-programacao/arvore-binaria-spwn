@@ -76,3 +76,11 @@ class BinaryTree:
             string = self.posOrdem(inicio.direita, string)
             string += (str(inicio.value) + "-")
         return string
+
+    def print_arvore(self, arvore):
+        if arvore == "pre":
+            return print(self.preordem(self.root, ""))
+        elif arvore == "em":
+            return print(self.emOrdem(self.root, ""))
+        elif arvore == "pós":
+            return print(self.posOrdem(self.root, ""))
