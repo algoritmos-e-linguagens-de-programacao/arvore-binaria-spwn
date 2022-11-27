@@ -1,5 +1,6 @@
 from node import Node
 
+ROOT = "root"
 
 class BinaryTree:
 
@@ -7,37 +8,48 @@ class BinaryTree:
         self.root = None
 
     def adicionar(self, value):
-        node = Node(value)
-        if self.root is None:
-            self.root = node
-
-        else:
-            aux = self.root
-            while (True):
-                if aux <= value:
-                    father = aux
-                    aux = aux.Esquerda()
-                    son_esquerda = True
-                else:
-                    father = aux
-                    aux = aux.Direita()
-                    son_esquerda = False
-
-                if aux is None:
-                    break
-            if son_esquerda is False:
-                father.Direita(node)
+        pai = None
+        aux = self.root
+        while(aux):
+            pai = aux
+            if value < aux.data:
+                aux = aux.esquerda
             else:
-                father.Esquerda(node)
+                aux = aux.direita
+        if pai is None:
+            self.root = Node(value)
+        elif value < pai.data:
+            pai.esquerda = Node(value)
+        else:
+            pai.direita = Node(value)
 
-    def remover(self, value, node):
-        if node == self.root:
+    def buscar(self, value):
+        return self._buscar(value, self.root)
+
+    def _buscar(self, value, node):
+        if node is None:
+            return node
+        if node.data == value:
+            return BinaryTree(node)
+        if value < node.data:
+            return self._buscar(value, node.esquerda)
+        return self._buscar(value, node.direita)
+
+    def minimo(self, node = ROOT):
+        if node == ROOT:
+            node = self.root
+        while node.esquerda:
+            node = node.esquerda
+        return node
+
+    def remover(self, value, node = ROOT):
+        if node == ROOT:
             node = self.root
         if node is None:
             return node
-        if value < node.value:
+        if value < node.data:
             node.esquerda = self.remover(value, node.esquerda)
-        elif value > node.value:
+        elif value > node.data:
             node.direita = self.remover(value, node.direita)
         else:
             if node.esquerda is None:
@@ -45,8 +57,8 @@ class BinaryTree:
             elif node.direita is None:
                 return node.esquerda
             else:
-                substituto = self.min(node.direita)
-                node.value = substituto
+                substituto = self.minimo(node.direita)
+                node.data = substituto
                 node.direita = self.remover(substituto, node.direita)
 
         return node
@@ -62,25 +74,21 @@ class BinaryTree:
         return string
 
     # em ordem 
-    def emOrdem(self, inicio, string):
-        if inicio:
-            string = self.emOrdem(inicio.esquerda, string)
-            string += (str(inicio.value) + "-")
-            string = self.emOrdem(inicio.direita, string)
-        return string
+    def emOrdem(self, node = None):
+        if node is None:
+            node = self.root
+        if node.esquerda:
+            self.emOrdem(node.esquerda)
+            print(node, end='')
+        if node.direita:
+            self.emOrdem(node.direita)
 
     # pos ordem
-    def posOrdem(self, inicio, string):
-        if inicio:
-            string = self.posOrdem(inicio.esquerda, string)
-            string = self.posOrdem(inicio.direita, string)
-            string += (str(inicio.value) + "-")
-        return string
-
-    def print_arvore(self, arvore):
-        if arvore == "pre":
-            return print(self.preordem(self.root, ""))
-        elif arvore == "em":
-            return print(self.emOrdem(self.root, ""))
-        elif arvore == "pós":
-            return print(self.posOrdem(self.root, ""))
+    def posOrdem(self):
+        if node is None:
+                node = self.root
+        if node.esquerda:
+                self.posOrdem(node.esquerda)
+        if node.direita:
+            self.posOrdem(node.direita)
+        print(node)
