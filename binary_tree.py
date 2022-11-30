@@ -66,9 +66,9 @@ class BinaryTree:
     #impressão de arvores
 
         # pre ordem 
-    def preordem(self, inicio, string):
+    def preOrdem(self, inicio, string):
         if inicio:
-            string += (str(inicio.value) + "-")
+            string += (str(inicio.data) + "-")
             string = self.preordem(inicio.esquerda, string)
             string = self.preordem(inicio.direita, string)
         return string
@@ -79,16 +79,16 @@ class BinaryTree:
             node = self.root
         if node.esquerda:
             self.emOrdem(node.esquerda)
-            print(node, end='')
+            print(node.data, end='')
         if node.direita:
             self.emOrdem(node.direita)
 
     # pos ordem
-    def posOrdem(self):
+    def posOrdem(self, node = None):
         if node is None:
                 node = self.root
         if node.esquerda:
                 self.posOrdem(node.esquerda)
         if node.direita:
             self.posOrdem(node.direita)
-        print(node)
+        print(node.data)
