@@ -22,6 +22,13 @@ class BinaryTree:
             pai.esquerda = Node(value)
         else:
             pai.direita = Node(value)
+        
+    def min(self, node=ROOT):
+        if node == ROOT:
+            node = self.root
+        while node.esquerda:
+            node = node.esquerda
+        return node.data
 
     def buscar(self, value):
         return self._buscar(value, self.root)
@@ -66,12 +73,22 @@ class BinaryTree:
     #impressão de arvores
 
         # pre ordem 
-    def preOrdem(self, inicio, string):
-        if inicio:
-            string += (str(inicio.data) + "-")
-            string = self.preordem(inicio.esquerda, string)
-            string = self.preordem(inicio.direita, string)
-        return string
+    def preOrdem(self, node = None):
+        if node is None:
+            node = self.root
+        while self.root.esquerda is None:
+            print(node.data)
+            if self.root.esquerda is None:
+                self.root.esquerda = self.root
+                while self.root.direita is None:
+                    print(node.data)
+        while self.root.direita is None: 
+            if self.root.esquerda is not None:
+                while self.root.esquerda is None:
+                    if self.root.esquerda is None:
+                        self.root.esquerda = self.root
+                        while self.root.data is None:
+                            print(node.data)
 
     # em ordem 
     def emOrdem(self, node = None):
@@ -79,7 +96,7 @@ class BinaryTree:
             node = self.root
         if node.esquerda:
             self.emOrdem(node.esquerda)
-            print(node.data, end='')
+        print(node.data)
         if node.direita:
             self.emOrdem(node.direita)
 
