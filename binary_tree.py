@@ -30,17 +30,15 @@ class BinaryTree:
             node = node.esquerda
         return node.data
 
-    def buscar(self, value):
-        return self._buscar(value, self.root)
-
-    def _buscar(self, value, node):
-        if node is None:
-            return node
-        if node.data == value:
-            return BinaryTree(node)
-        if value < node.data:
-            return self._buscar(value, node.esquerda)
-        return self._buscar(value, node.direita)
+    def buscar(self, value, node = ROOT):
+        if node == ROOT:
+            node = self.root
+            if node == self.root:
+                return self.root
+            elif (node < self.root):
+                return self.buscar(node.esquerda, value)
+            else:
+                return self.buscar(node.direita, value)
 
     def minimo(self, node = ROOT):
         if node == ROOT:
@@ -76,19 +74,9 @@ class BinaryTree:
     def preOrdem(self, node = None):
         if node is None:
             node = self.root
-        while self.root.esquerda is None:
             print(node.data)
-            if self.root.esquerda is None:
-                self.root.esquerda = self.root
-                while self.root.direita is None:
-                    print(node.data)
-        while self.root.direita is None: 
-            if self.root.esquerda is not None:
-                while self.root.esquerda is None:
-                    if self.root.esquerda is None:
-                        self.root.esquerda = self.root
-                        while self.root.data is None:
-                            print(node.data)
+            self.preOrdem(node.esquerda)
+            self.preOrdem(node.direita)
 
     # em ordem 
     def emOrdem(self, node = None):

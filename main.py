@@ -8,11 +8,12 @@ arvore.adicionar(1)
 arvore.adicionar(4)
 
 # arvore.emOrdem()
-arvore.posOrdem()
+# arvore.posOrdem()
 # arvore.preOrdem()
+arvore.buscar(17)
 
 # arvore.remover(13)
-# arvore.remover(22)
+arvore.remover(22)
 
 # arvore.emOrdem()
 # arvore.posOrdem()
